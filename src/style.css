@@ -1,0 +1,15 @@
+:root {
+  --theme: #115ba3;
+  --theme-dark: #0a3c6f;
+}
+
+body {
+  font-family: sans-serif;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 1rem 1rem 10rem;
+}
+
+*:focus {
+  outline-offset: 2px;
+}
