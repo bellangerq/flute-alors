@@ -73,6 +73,10 @@ function deleteNote() {
   selectedIndex.value = null;
 }
 
+function deleteSheet() {
+  sheetsStore.deleteSheet(props.id);
+}
+
 const chunkedNotes = computed(() => {
   return chunk(props.notes, props.bars);
 });
@@ -81,7 +85,10 @@ const selectedIndex = ref();
 </script>
 
 <template>
-  <h2>{{ name }} — {{ author }}</h2>
+  <div class="sheet-heading">
+    <h2>{{ name }} — {{ author }}</h2>
+    <button class="sheet-delete" @click="deleteSheet">Supprimer</button>
+  </div>
   <div class="sheet-wrapper">
     <div v-for="(chunk, i) in chunkedNotes" :key="i" class="sheet">
       <div class="sheet-notes">
@@ -119,6 +126,26 @@ const selectedIndex = ref();
     minmax(min(100%, var(--min-sheet-width)), 1fr)
   );
   max-width: 60rem;
+}
+
+.sheet-heading {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.sheet-delete {
+  background-color: white;
+  border: 1px solid var(--theme);
+  font-weight: bold;
+  color: var(--theme);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sheet-delete:hover {
+  background-color: var(--theme);
+  color: white;
 }
 
 .sheet {

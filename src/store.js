@@ -96,5 +96,11 @@ export const useSheetsStore = defineStore("sheets", {
 
       localStorage.setItem(LOCAL_STORAGE_ID, JSON.stringify(this.sheets));
     },
+
+    deleteSheet(sheetId) {
+      this.sheets = this.sheets.filter((s) => s.id !== sheetId);
+
+      localStorage.setItem(LOCAL_STORAGE_ID, JSON.stringify(this.sheets));
+    },
   },
 });
