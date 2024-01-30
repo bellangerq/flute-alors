@@ -7,6 +7,7 @@ export const NOTES_ORDER = [
   "la",
   "sol",
   "fa",
+  "fa#",
   "mi",
   "re",
   "do",
@@ -51,7 +52,9 @@ defineEmits(["selectOrUpdateValue", "updateNote", "deleteNote"]);
             return { [value]: v === value };
           }),
         ]"
-      />
+      >
+        <span v-if="name === 'do'" class="do-line" />
+      </span>
     </span>
     <span class="name">
       <strong>{{ name }}</strong>
@@ -122,7 +125,8 @@ defineEmits(["selectOrUpdateValue", "updateNote", "deleteNote"]);
 .type-sol {
   transform: translateY(0.5rem);
 }
-.type-fa {
+.type-fa,
+.type-fa\# {
   transform: translateY(1rem);
 }
 .type-mi {
@@ -135,6 +139,16 @@ defineEmits(["selectOrUpdateValue", "updateNote", "deleteNote"]);
   transform: translateY(2.5rem);
 }
 
+.do-line {
+  position: absolute;
+  height: 1px;
+  width: 1.6rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%);
+  background: black;
+}
+
 .stem::after {
   content: "";
   width: 2px;
@@ -142,7 +156,6 @@ defineEmits(["selectOrUpdateValue", "updateNote", "deleteNote"]);
   position: absolute;
   right: 1px;
   background-color: black;
-  /* z-index: -1; */
 }
 .stem-rising::after {
   bottom: 40%;
