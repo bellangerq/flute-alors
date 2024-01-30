@@ -1,8 +1,11 @@
 <script setup>
 import { chunk } from "lodash-es";
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref, computed, nextTick } from "vue";
 
-import SheetNote, { NOTES_ORDER, NOTES_VALUE } from "./SheetNote.vue";
+import SheetNote, {
+  NOTES_ORDER,
+  NOTES_VALUE,
+} from "../components/SheetNote.vue";
 import { useSheetsStore } from "../store";
 
 const props = defineProps({
@@ -55,13 +58,18 @@ onMounted(() => {
   });
 });
 
-function addNote() {
+const sheetNotesRefs = ref([]);
+
+async function addNote() {
   sheetsStore.addSheetNote(props.id, {
     name: NOTES_ORDER[0],
     value: NOTES_VALUE[0],
   });
-
   selectedIndex.value = props.notes.length - 1;
+
+  await nextTick();
+
+  sheetNotesRefs.value[selectedIndex.value].focusNote();
 }
 
 function updateNote(direction) {
@@ -95,6 +103,7 @@ const selectedIndex = ref();
         <SheetNote
           v-for="(note, j) in chunk"
           :key="j"
+          ref="sheetNotesRefs"
           :name="note.name"
           :value="note.value"
           :selected="selectedIndex === (i === 0 ? j : i * bars + j)"

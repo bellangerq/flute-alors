@@ -16,6 +16,8 @@ export const NOTES_VALUE = ["black", "black dotted", "white", "white dotted"];
 </script>
 
 <script setup>
+import { ref } from "vue";
+
 const props = defineProps({
   name: {
     type: String,
@@ -29,10 +31,18 @@ const props = defineProps({
 });
 
 defineEmits(["selectOrUpdateValue", "updateNote", "deleteNote"]);
+defineExpose({ focusNote });
+
+const noteRef = ref();
+
+function focusNote() {
+  noteRef.value.focus();
+}
 </script>
 
 <template>
   <button
+    ref="noteRef"
     @click="$emit('selectOrUpdateValue')"
     @keydown.up.prevent="$emit('updateNote', 'up')"
     @keydown.down.prevent="$emit('updateNote', 'down')"
@@ -87,7 +97,8 @@ defineEmits(["selectOrUpdateValue", "updateNote", "deleteNote"]);
   outline: 2px dashed grey;
 }
 
-.note-selected {
+.note-selected,
+.note:focus {
   outline: 2px dashed black;
 }
 

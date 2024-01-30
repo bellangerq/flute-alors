@@ -47,23 +47,27 @@ export const useSheetsStore = defineStore("sheets", {
   },
 
   actions: {
+    saveStateToLocalStorage() {
+      localStorage.setItem(LOCAL_STORAGE_ID, JSON.stringify(this.sheets));
+    },
+
     addSheet(newSheet) {
       this.sheets.push(newSheet);
 
-      localStorage.setItem(LOCAL_STORAGE_ID, JSON.stringify(this.sheets));
+      this.saveStateToLocalStorage();
     },
 
     addSheetNote(sheetId, note) {
       this.getSheet(sheetId).notes.push(note);
 
-      localStorage.setItem(LOCAL_STORAGE_ID, JSON.stringify(this.sheets));
+      this.saveStateToLocalStorage();
     },
 
     deleteSheetNote(sheetId, index) {
       const sheet = this.getSheet(sheetId);
       sheet.notes = sheet.notes.filter((_, i) => i !== index);
 
-      localStorage.setItem(LOCAL_STORAGE_ID, JSON.stringify(this.sheets));
+      this.saveStateToLocalStorage();
     },
 
     updateNoteName(sheetId, index, direction) {
@@ -83,7 +87,7 @@ export const useSheetsStore = defineStore("sheets", {
           NOTES_ORDER[noteIndexInOrder + 1] ?? NOTES_ORDER.at(0);
       }
 
-      localStorage.setItem(LOCAL_STORAGE_ID, JSON.stringify(this.sheets));
+      this.saveStateToLocalStorage();
     },
 
     updateNoteValue(sheetId, index) {
@@ -94,13 +98,13 @@ export const useSheetsStore = defineStore("sheets", {
           ? NOTES_VALUE[0]
           : NOTES_VALUE[NOTES_VALUE.indexOf(sheet.notes[index].value) + 1];
 
-      localStorage.setItem(LOCAL_STORAGE_ID, JSON.stringify(this.sheets));
+      this.saveStateToLocalStorage();
     },
 
     deleteSheet(sheetId) {
       this.sheets = this.sheets.filter((s) => s.id !== sheetId);
 
-      localStorage.setItem(LOCAL_STORAGE_ID, JSON.stringify(this.sheets));
+      this.saveStateToLocalStorage();
     },
   },
 });
