@@ -33,14 +33,12 @@ const chunkedNotes = computed(() => {
   <h2>{{ name }} — {{ author }}</h2>
   <div class="sheet-wrapper">
     <div v-for="(chunk, i) in chunkedNotes" :key="i" class="sheet">
-      <div class="sheet-notes">
-        <SheetNote
-          v-for="(note, j) in chunk"
-          :key="j"
-          :name="note.name"
-          :value="note.value"
-        />
-      </div>
+      <SheetNote
+        v-for="(note, j) in chunk"
+        :key="j"
+        :name="note.name"
+        :value="note.value"
+      />
     </div>
   </div>
 </template>
@@ -59,8 +57,18 @@ const chunkedNotes = computed(() => {
 }
 
 .sheet {
-  position: relative;
+  background: repeating-linear-gradient(
+    180deg,
+    black,
+    black 1px,
+    white 1px,
+    white 1rem
+  );
   height: 5rem;
+  display: grid;
+  grid-template-columns: repeat(v-bind(bars), 1fr);
+  position: relative;
+  padding: 0 0.5rem;
 }
 
 .sheet::after {
@@ -73,20 +81,35 @@ const chunkedNotes = computed(() => {
   width: 1px;
 }
 
+.sheet:last-child::after {
+  width: 0.4rem;
+}
+
+.sheet:last-child::before {
+  content: "";
+  top: 0;
+  right: 0.6rem;
+  bottom: 1rem;
+  background-color: black;
+  position: absolute;
+  width: 1px;
+  z-index: 1;
+}
+
 .sheet-notes {
-  background: repeating-linear-gradient(
+  /* background: repeating-linear-gradient(
     180deg,
     black,
     black 1px,
     white 1px,
     white 1rem
-  );
+  ); */
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   min-width: 100%;
-  display: grid;
-  grid-template-columns: repeat(v-bind(bars), 1fr);
+  /* display: grid;
+  grid-template-columns: repeat(v-bind(bars), 1fr); */
 }
 </style>

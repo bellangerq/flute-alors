@@ -19,7 +19,6 @@ export const NOTES_VALUE = ["black", "black dotted", "white", "white dotted"];
 const props = defineProps({
   name: String,
   value: String,
-  selected: Boolean,
 });
 </script>
 
@@ -56,13 +55,6 @@ const props = defineProps({
   align-items: center;
   justify-content: space-between;
   position: relative;
-}
-
-/* Layer to allow click even on note icon */
-.note::after {
-  content: "";
-  inset: 0;
-  position: absolute;
 }
 
 .icon {

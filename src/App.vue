@@ -15,7 +15,6 @@ import sheets from "../sheets";
         <Sheet
           :name="sheet.name"
           :author="sheet.author"
-          :id="sheet.id"
           :notes="sheet.notes"
           :bars="sheet.bars"
         />
@@ -32,8 +31,8 @@ import sheets from "../sheets";
           notes en dessous.
         </p>
         <p>
-          Gros disclaimer : je pars de 0 en connaissance de la musique. Il se
-          peut donc qu’il y ait des inexactitudes.
+          Gros disclaimer : je pars de 0 en musique. Il se peut donc qu’il y ait
+          des inexactitudes sur les partitions.
         </p>
       </Accordion>
 
