@@ -16,39 +16,15 @@ export const NOTES_VALUE = ["black", "black dotted", "white", "white dotted"];
 </script>
 
 <script setup>
-import { ref } from "vue";
-
 const props = defineProps({
-  name: {
-    type: String,
-    default: "la",
-  },
-  value: {
-    type: String,
-    default: "black",
-  },
+  name: String,
+  value: String,
   selected: Boolean,
 });
-
-defineEmits(["selectOrUpdateValue", "updateNote", "deleteNote"]);
-defineExpose({ focusNote });
-
-const noteRef = ref();
-
-function focusNote() {
-  noteRef.value.focus();
-}
 </script>
 
 <template>
-  <button
-    ref="noteRef"
-    @click="$emit('selectOrUpdateValue')"
-    @keydown.up.prevent="$emit('updateNote', 'up')"
-    @keydown.down.prevent="$emit('updateNote', 'down')"
-    @keydown.delete.prevent="$emit('deleteNote')"
-    :class="['note', { 'note-selected': selected }]"
-  >
+  <div class="note">
     <span class="icon">
       <span
         :class="[
@@ -69,7 +45,7 @@ function focusNote() {
     <span class="name">
       <strong>{{ name }}</strong>
     </span>
-  </button>
+  </div>
 </template>
 
 <style scoped>
@@ -79,10 +55,6 @@ function focusNote() {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  background: none;
-  border: none;
-  padding: 0;
-  font: inherit;
   position: relative;
 }
 
@@ -91,15 +63,6 @@ function focusNote() {
   content: "";
   inset: 0;
   position: absolute;
-}
-
-.note:not(.note-selected):hover {
-  outline: 2px dashed grey;
-}
-
-.note-selected,
-.note:focus {
-  outline: 2px dashed black;
 }
 
 .icon {

@@ -1,22 +1,17 @@
 <script setup>
-import SheetForm from "./components/SheetForm.vue";
 import Sheet from "./components/Sheet.vue";
-import { useSheetsStore } from "./store";
 import Accordion from "./components/Accordion.vue";
-
-const sheetsStore = useSheetsStore();
+import sheets from "../sheets";
 </script>
 
 <template>
   <main>
     <h1>Flûte alors 🪈</h1>
 
-    <SheetForm />
-
     <hr />
 
     <ul class="sheet-list">
-      <li v-for="sheet in sheetsStore.sheets" :key="sheet.name">
+      <li v-for="sheet in sheets" :key="sheet.name">
         <Sheet
           :name="sheet.name"
           :author="sheet.author"
