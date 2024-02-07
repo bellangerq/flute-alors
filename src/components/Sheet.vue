@@ -38,6 +38,7 @@ const chunkedNotes = computed(() => {
         :key="j"
         :name="note.name"
         :value="note.value"
+        :dotted="note.dotted"
       />
     </div>
   </div>
