@@ -7,10 +7,6 @@ const props = defineProps({
   dotted: Boolean,
 });
 
-/**
- * TODO:
- * - eight note icons (https://commons.wikimedia.org/wiki/Category:SVG_musical_notation)
- */
 const isStemDown = computed(() => {
   return ["mi'", "re'", "do'", "si"].includes(props.name);
 });
@@ -29,7 +25,10 @@ const iconSrc = computed(() => {
     <span class="icon-wrapper">
       <div class="icon-image">
         <img :src="iconSrc" alt="" />
-        <span v-if="name === 'do'" class="do-line" />
+        <span
+          v-if="name === 'do'"
+          :class="['do-line', { shifted: value === 'eighth' }]"
+        />
       </div>
     </span>
     <span class="name">
@@ -57,12 +56,11 @@ const iconSrc = computed(() => {
 
 .icon-image {
   display: flex;
-  width: 1rem;
   position: relative;
 }
 
 .icon-image img {
-  width: 100%;
+  height: 3rem;
 }
 
 .name {
@@ -119,6 +117,7 @@ const iconSrc = computed(() => {
 }
 
 /* Sheet line for do */
+
 .do-line {
   position: absolute;
   height: 1px;
@@ -127,5 +126,10 @@ const iconSrc = computed(() => {
   bottom: 0.4rem;
   transform: translate(-50%);
   background: black;
+}
+
+/* SVG for eighth-down is wider than the other ones... */
+.do-line.shifted {
+  left: 35%;
 }
 </style>
