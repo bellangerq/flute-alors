@@ -69,6 +69,7 @@ const iconSrc = computed(() => {
   align-items: center;
   justify-content: space-between;
   position: relative;
+  padding: 0 0.4rem;
 }
 
 .icon-wrapper {

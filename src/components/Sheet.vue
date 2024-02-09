@@ -1,15 +1,9 @@
 <script setup>
-import { chunk } from "lodash-es";
 import { computed } from "vue";
 
-import { NOTES_VALUES } from "../settings";
 import SheetItem from "./SheetItem.vue";
 
 const props = defineProps({
-  type: {
-    type: String,
-    required: true,
-  },
   name: {
     type: String,
     required: true,
@@ -31,44 +25,45 @@ const props = defineProps({
 
 /**
  * TODO:
- * - split sheet by bar (fitted with notes + rests)
- * - (add beamed notes)
+ * - handle first bar not respecting timeSignature (startValue prop?)
+ * - fix dot for all notes
+ * - directly use computed as "value"
+ * - add lied notes
+ * - add beamed notes
  */
+
 const chunkedItems = computed(() => {
-  return chunk(props.items, 4);
+  const result = [[]];
+  const barMax = props.timeSignature[0] / props.timeSignature[1];
+
+  // Create chunks of items where sum of computedValue === barMax
+  props.items.forEach((item) => {
+    const sum = result[result.length - 1]
+      .map((r) => r.computedValue)
+      .reduce((a, b) => a + b, 0);
+
+    if (sum + item.computedValue <= barMax) {
+      result[result.length - 1].push(item);
+    } else {
+      result.push([item]);
+    }
+  });
+
+  return result;
 });
-
-// const test = computed(() => {
-//   const notesValues = props.items.map((n) => NOTES_VALUES[n.value]);
-//   const result = [];
-//   const barMax = props.timeSignature[0] / props.timeSignature[1];
-
-//   // Divide notes by chunk of `barMax` sum
-//   // See: https://stackoverflow.com/a/49403706
-//   notesValues.forEach((v) => {
-//     const chunk = result.find((c) => {
-//       const sum = c.reduce((a, b) => a + b);
-
-//       return sum + v <= barMax;
-//     });
-
-//     if (chunk) {
-//       chunk.push(v);
-//     } else {
-//       result.push([v]);
-//     }
-//   });
-
-//   return result;
-// });
 </script>
 
 <template>
   <h2>
     {{ name }} — {{ author }} ({{ timeSignature[0] }} / {{ timeSignature[1] }})
   </h2>
-  <div class="sheet-wrapper">
-    <div v-for="(chunk, i) in chunkedItems" :key="i" class="sheet">
+  <div class="bar-wrapper">
+    <div
+      v-for="(chunk, i) in chunkedItems"
+      :key="i"
+      class="bar"
+      :style="{ '--bar-columns': chunk.length }"
+    >
       <SheetItem
         v-for="(item, j) in chunk"
         :key="j"
@@ -82,19 +77,19 @@ const chunkedItems = computed(() => {
 </template>
 
 <style scoped>
-.sheet-wrapper {
-  --min-sheet-width: 12rem;
+.bar-wrapper {
+  --min-bar-width: 4rem;
+  --sheet-columns: 16;
 
   display: grid;
   gap: 4rem 0;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(min(100%, var(--min-sheet-width)), 1fr)
-  );
-  max-width: 60rem;
+  grid-template-columns: repeat(16, 1fr);
+
+  display: flex;
+  flex-wrap: wrap;
 }
 
-.sheet {
+.bar {
   background: repeating-linear-gradient(
     180deg,
     black,
@@ -104,12 +99,17 @@ const chunkedItems = computed(() => {
   );
   height: 5rem;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(var(--bar-columns), 1fr);
+  grid-column: span var(--bar-columns);
   position: relative;
   padding: 0 0.5rem;
 }
 
-.sheet::after {
+.bar:not(:last-child) {
+  flex-grow: 1;
+}
+
+.bar::after {
   content: "";
   top: 0;
   right: 0;
@@ -119,11 +119,11 @@ const chunkedItems = computed(() => {
   width: 1px;
 }
 
-.sheet:last-child::after {
+.bar:last-child::after {
   width: 0.4rem;
 }
 
-.sheet:last-child::before {
+.bar:last-child::before {
   content: "";
   top: 0;
   right: 0.6rem;
