@@ -1,16 +1,17 @@
 const testSheet = {
   name: "Test",
   author: "John Doe",
-  bars: 4,
   timeSignature: [3, 4],
   notes: [
     { name: "mi", value: "eighth" },
-    { name: "mi", value: "eighth" },
+    { name: "mi", value: "sixteenth" },
+    { rest: true, value: "eighth" },
+    { name: "si", value: "sixteenth" },
     { name: "si", value: "eighth" },
-    { name: "si", value: "eighth" },
-    { name: "la", value: "eighth" },
+    { rest: true, value: "quarter" },
     { name: "do", value: "eighth" },
-    { name: "si", value: "eighth" },
+    { rest: true, value: "half" },
+    { rest: true, value: "whole" },
     { name: "sol", value: "eighth" },
     { name: "sol", value: "eighth" },
     { name: "sol", value: "eighth" },
@@ -27,9 +28,32 @@ const testSheet = {
 export default [
   ...(import.meta.env.MODE === "development" ? [testSheet] : []),
   {
+    name: "La rumeur",
+    author: "Manau",
+    timeSignature: [4, 4],
+    notes: [
+      { name: "mi", value: "quarter" },
+      { name: "mi", value: "quarter" },
+      { name: "si", value: "quarter", dotted: true },
+      { name: "si", value: "eighth" },
+      { name: "la", value: "quarter" },
+      { name: "do'", value: "quarter" },
+      { name: "si", value: "quarter" },
+      { name: "sol", value: "quarter" },
+      { name: "sol", value: "quarter" },
+      { name: "sol", value: "quarter" },
+      { name: "la", value: "quarter" },
+      { name: "la", value: "quarter" },
+      { name: "la", value: "quarter" },
+      { name: "la", value: "quarter" },
+      { name: "la", value: "quarter" },
+      { name: "sol", value: "quarter", dotted: true },
+      { name: "la", value: "quarter" },
+    ],
+  },
+  {
     name: "Ensemble",
     author: "Jean-Jacques Goldman",
-    bars: 4,
     timeSignature: [4, 4],
     notes: [
       { name: "re", value: "quarter" },
@@ -81,7 +105,6 @@ export default [
   {
     name: "Baby Shark",
     author: "Min Seok Kim",
-    bars: 4,
     timeSignature: [4, 4],
     notes: [
       { name: "do", value: "quarter" },
@@ -121,7 +144,6 @@ export default [
   {
     name: "Joyeux anniversaire",
     author: "Robert Coleman",
-    bars: 4,
     timeSignature: [3, 4],
     notes: [
       { name: "re", value: "quarter", dotted: true },
@@ -155,13 +177,12 @@ export default [
   {
     name: "Concerning hobbits",
     author: "Howard Shore",
-    bars: 4,
     timeSignature: [2, 4],
     notes: [
-      { name: "do", value: "quarter" },
-      { name: "re", value: "quarter" },
+      { name: "do", value: "sixteenth" },
+      { name: "re", value: "sixteenth" },
       { name: "mi", value: "quarter" },
-      { name: "sol", value: "quarter" },
+      { name: "sol", value: "eighth" },
       { name: "sol", value: "quarter" },
       { name: "mi", value: "quarter" },
       { name: "re", value: "quarter" },

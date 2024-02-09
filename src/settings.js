@@ -1,5 +1,13 @@
 export const BASE_VALUE = 1;
 
+// Based on https://fr.wikipedia.org/wiki/Mesure_(musique)#Chiffrages
+export const TIME_UNIT = {
+  whole: 1,
+  half: 2,
+  quarter: 4,
+  eighth: 8,
+};
+
 // Based on https://en.wikipedia.org/wiki/Note_value
 export const NOTES_VALUES = {
   whole: BASE_VALUE,

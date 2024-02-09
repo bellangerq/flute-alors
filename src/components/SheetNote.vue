@@ -5,6 +5,7 @@ const props = defineProps({
   name: String,
   value: String,
   dotted: Boolean,
+  rest: Boolean,
 });
 
 const isStemDown = computed(() => {
@@ -12,6 +13,10 @@ const isStemDown = computed(() => {
 });
 
 const iconSrc = computed(() => {
+  if (props.rest) {
+    return `/rests-icons/${props.value}.svg`;
+  }
+
   if (isStemDown.value) {
     return `/notes-icons/${props.value}-down.svg`;
   } else {
@@ -21,17 +26,27 @@ const iconSrc = computed(() => {
 </script>
 
 <template>
-  <div :class="[`note note-${name}`, { 'note-dotted': dotted }]">
+  <div
+    :class="[
+      `note ${value}`,
+      { [`note-${name}`]: name },
+      { 'note-dotted': dotted },
+      { 'is-rest': rest },
+    ]"
+  >
     <span class="icon-wrapper">
       <div class="icon-image">
         <img :src="iconSrc" alt="" />
         <span
           v-if="name === 'do'"
-          :class="['do-line', { shifted: value === 'eighth' }]"
+          :class="[
+            'do-line',
+            { shifted: value === 'eighth' || value === 'sixteenth' },
+          ]"
         />
       </div>
     </span>
-    <span class="name">
+    <span v-if="name" class="name">
       <strong>{{ name }}</strong>
     </span>
   </div>
@@ -59,7 +74,7 @@ const iconSrc = computed(() => {
   position: relative;
 }
 
-.icon-image img {
+.icon-image:not(.is-rest) img {
   height: 3rem;
 }
 
@@ -94,6 +109,27 @@ const iconSrc = computed(() => {
 }
 .note-do .icon-image {
   transform: translateY(1.5rem);
+}
+
+/* Rest alignment */
+.is-rest .icon-image {
+  width: 1rem;
+}
+
+.is-rest.whole .icon-image {
+  transform: translateY(-1.3rem);
+}
+
+.is-rest.half .icon-image {
+  transform: translateY(-0.7rem);
+}
+
+.is-rest.quarter .icon-image {
+  transform: translateY(-0.5rem);
+}
+
+.is-rest.eighth .icon-image {
+  transform: translateY(-0.3rem);
 }
 
 /* Dotted notes */

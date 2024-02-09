@@ -16,7 +16,7 @@ import sheets from "../sheets";
           :name="sheet.name"
           :author="sheet.author"
           :notes="sheet.notes"
-          :bars="sheet.bars"
+          :time-signature="sheet.timeSignature"
         />
       </li>
     </ul>

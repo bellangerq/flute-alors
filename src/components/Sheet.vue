@@ -2,6 +2,7 @@
 import { chunk } from "lodash-es";
 import { computed } from "vue";
 
+import { NOTES_VALUES } from "../settings";
 import SheetNote from "../components/SheetNote.vue";
 
 const props = defineProps({
@@ -17,25 +18,58 @@ const props = defineProps({
     type: Array,
     required: true,
   },
-  bars: {
-    type: Number,
+  timeSignature: {
+    type: Array,
     required: false,
-    default: 4,
+    default: () => [4, 4],
   },
 });
 
+/**
+ * TODO:
+ * - split sheet by bar (fitted with notes + rests)
+ * - (add beamed notes)
+ */
 const chunkedNotes = computed(() => {
-  return chunk(props.notes, props.bars);
+  return chunk(props.notes, 4);
+});
+
+const test = computed(() => {
+  const notesValues = props.notes.map((n) => NOTES_VALUES[n.value]);
+  const result = [];
+  const barMax = props.timeSignature[0] / props.timeSignature[1];
+
+  // Divide notes by chunk of `barMax` sum
+  // See: https://stackoverflow.com/a/49403706
+  notesValues.forEach((v) => {
+    const chunk = result.find((c) => {
+      const sum = c.reduce((a, b) => a + b);
+
+      return sum + v <= barMax;
+    });
+
+    if (chunk) {
+      chunk.push(v);
+    } else {
+      result.push([v]);
+    }
+  });
+
+  return result;
 });
 </script>
 
 <template>
-  <h2>{{ name }} — {{ author }}</h2>
+  <pre><code>{{ test }}</code></pre>
+  <h2>
+    {{ name }} — {{ author }} ({{ timeSignature[0] }} / {{ timeSignature[1] }})
+  </h2>
   <div class="sheet-wrapper">
     <div v-for="(chunk, i) in chunkedNotes" :key="i" class="sheet">
       <SheetNote
         v-for="(note, j) in chunk"
         :key="j"
+        :rest="note.rest"
         :name="note.name"
         :value="note.value"
         :dotted="note.dotted"
@@ -67,7 +101,7 @@ const chunkedNotes = computed(() => {
   );
   height: 5rem;
   display: grid;
-  grid-template-columns: repeat(v-bind(bars), 1fr);
+  grid-template-columns: repeat(4, 1fr);
   position: relative;
   padding: 0 0.5rem;
 }
@@ -98,19 +132,10 @@ const chunkedNotes = computed(() => {
 }
 
 .sheet-notes {
-  /* background: repeating-linear-gradient(
-    180deg,
-    black,
-    black 1px,
-    white 1px,
-    white 1rem
-  ); */
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   min-width: 100%;
-  /* display: grid;
-  grid-template-columns: repeat(v-bind(bars), 1fr); */
 }
 </style>
