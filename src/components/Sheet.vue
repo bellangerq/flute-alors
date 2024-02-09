@@ -3,9 +3,13 @@ import { chunk } from "lodash-es";
 import { computed } from "vue";
 
 import { NOTES_VALUES } from "../settings";
-import SheetNote from "../components/SheetNote.vue";
+import SheetItem from "./SheetItem.vue";
 
 const props = defineProps({
+  type: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
@@ -14,7 +18,7 @@ const props = defineProps({
     type: String,
     required: true,
   },
-  notes: {
+  items: {
     type: Array,
     required: true,
   },
@@ -30,49 +34,48 @@ const props = defineProps({
  * - split sheet by bar (fitted with notes + rests)
  * - (add beamed notes)
  */
-const chunkedNotes = computed(() => {
-  return chunk(props.notes, 4);
+const chunkedItems = computed(() => {
+  return chunk(props.items, 4);
 });
 
-const test = computed(() => {
-  const notesValues = props.notes.map((n) => NOTES_VALUES[n.value]);
-  const result = [];
-  const barMax = props.timeSignature[0] / props.timeSignature[1];
+// const test = computed(() => {
+//   const notesValues = props.items.map((n) => NOTES_VALUES[n.value]);
+//   const result = [];
+//   const barMax = props.timeSignature[0] / props.timeSignature[1];
 
-  // Divide notes by chunk of `barMax` sum
-  // See: https://stackoverflow.com/a/49403706
-  notesValues.forEach((v) => {
-    const chunk = result.find((c) => {
-      const sum = c.reduce((a, b) => a + b);
+//   // Divide notes by chunk of `barMax` sum
+//   // See: https://stackoverflow.com/a/49403706
+//   notesValues.forEach((v) => {
+//     const chunk = result.find((c) => {
+//       const sum = c.reduce((a, b) => a + b);
 
-      return sum + v <= barMax;
-    });
+//       return sum + v <= barMax;
+//     });
 
-    if (chunk) {
-      chunk.push(v);
-    } else {
-      result.push([v]);
-    }
-  });
+//     if (chunk) {
+//       chunk.push(v);
+//     } else {
+//       result.push([v]);
+//     }
+//   });
 
-  return result;
-});
+//   return result;
+// });
 </script>
 
 <template>
-  <pre><code>{{ test }}</code></pre>
   <h2>
     {{ name }} — {{ author }} ({{ timeSignature[0] }} / {{ timeSignature[1] }})
   </h2>
   <div class="sheet-wrapper">
-    <div v-for="(chunk, i) in chunkedNotes" :key="i" class="sheet">
-      <SheetNote
-        v-for="(note, j) in chunk"
+    <div v-for="(chunk, i) in chunkedItems" :key="i" class="sheet">
+      <SheetItem
+        v-for="(item, j) in chunk"
         :key="j"
-        :rest="note.rest"
-        :name="note.name"
-        :value="note.value"
-        :dotted="note.dotted"
+        :type="item.type"
+        :name="item.name"
+        :value="item.value"
+        :dotted="item.dotted"
       />
     </div>
   </div>
@@ -129,13 +132,5 @@ const test = computed(() => {
   position: absolute;
   width: 1px;
   z-index: 1;
-}
-
-.sheet-notes {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  min-width: 100%;
 }
 </style>

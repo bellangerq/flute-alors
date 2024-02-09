@@ -2,10 +2,19 @@
 import { computed } from "vue";
 
 const props = defineProps({
-  name: String,
-  value: String,
+  type: {
+    type: String,
+    required: true,
+  },
+  name: {
+    type: String,
+    required: false,
+  },
+  value: {
+    type: String,
+    required: true,
+  },
   dotted: Boolean,
-  rest: Boolean,
 });
 
 const isStemDown = computed(() => {
@@ -13,7 +22,7 @@ const isStemDown = computed(() => {
 });
 
 const iconSrc = computed(() => {
-  if (props.rest) {
+  if (props.type === "rest") {
     return `/rests-icons/${props.value}.svg`;
   }
 
@@ -28,10 +37,9 @@ const iconSrc = computed(() => {
 <template>
   <div
     :class="[
-      `note ${value}`,
+      `item item-${type} ${value}`,
       { [`note-${name}`]: name },
-      { 'note-dotted': dotted },
-      { 'is-rest': rest },
+      { 'item-dotted': dotted },
     ]"
   >
     <span class="icon-wrapper">
@@ -54,7 +62,7 @@ const iconSrc = computed(() => {
 
 <style scoped>
 /* Layout */
-.note {
+.item {
   display: flex;
   gap: 1rem;
   flex-direction: column;
@@ -74,7 +82,7 @@ const iconSrc = computed(() => {
   position: relative;
 }
 
-.icon-image:not(.is-rest) img {
+.item-note .icon-image img {
   height: 3rem;
 }
 
@@ -112,28 +120,32 @@ const iconSrc = computed(() => {
 }
 
 /* Rest alignment */
-.is-rest .icon-image {
+.item-rest .icon-image {
   width: 1rem;
 }
 
-.is-rest.whole .icon-image {
+.item-rest .icon-image img {
+  width: 100%;
+}
+
+.item-rest.whole .icon-image {
   transform: translateY(-1.3rem);
 }
 
-.is-rest.half .icon-image {
+.item-rest.half .icon-image {
   transform: translateY(-0.7rem);
 }
 
-.is-rest.quarter .icon-image {
+.item-rest.quarter .icon-image {
   transform: translateY(-0.5rem);
 }
 
-.is-rest.eighth .icon-image {
+.item-rest.eighth .icon-image {
   transform: translateY(-0.3rem);
 }
 
-/* Dotted notes */
-.note-dotted .icon-image::after {
+/* Dotted items */
+.item-dotted .icon-image::after {
   content: "";
   border-radius: 50%;
   background: black;
@@ -144,10 +156,10 @@ const iconSrc = computed(() => {
   position: absolute;
 }
 
-.note-dotted.note-mi\' .icon-image::after,
-.note-dotted.note-re\' .icon-image::after,
-.note-dotted.note-do\' .icon-image::after,
-.note-dotted.note-si .icon-image::after {
+.item-dotted.note-mi\' .icon-image::after,
+.item-dotted.note-re\' .icon-image::after,
+.item-dotted.note-do\' .icon-image::after,
+.item-dotted.note-si .icon-image::after {
   top: 0.5rem;
   bottom: auto;
 }

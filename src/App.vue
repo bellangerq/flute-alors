@@ -13,9 +13,10 @@ import sheets from "../sheets";
     <ul class="sheet-list">
       <li v-for="sheet in sheets" :key="sheet.name">
         <Sheet
+          :type="sheet.type"
           :name="sheet.name"
           :author="sheet.author"
-          :notes="sheet.notes"
+          :items="sheet.items"
           :time-signature="sheet.timeSignature"
         />
       </li>
