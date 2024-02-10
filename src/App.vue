@@ -34,6 +34,7 @@ const computedSheets = computed(() => {
           :author="sheet.author"
           :items="sheet.items"
           :time-signature="sheet.timeSignature"
+          :start-value="sheet.startValue"
         />
       </li>
     </ul>

@@ -156,6 +156,7 @@ export default [
     name: "Joyeux anniversaire",
     author: "Robert Coleman",
     timeSignature: [3, 4],
+    startValue: 0.5,
     items: [
       { type: "note", name: "re", value: "eighth", dotted: true },
       { type: "note", name: "re", value: "sixteenth" },

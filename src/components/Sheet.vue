@@ -21,19 +21,29 @@ const props = defineProps({
     required: false,
     default: () => [4, 4],
   },
+  startValue: {
+    type: Number,
+    required: false,
+  },
 });
 
 /**
  * TODO:
- * - handle first bar not respecting timeSignature (startValue prop?)
  * - fix dot for all notes
  * - directly use computed as "value"
+ * - add clef de sol
  * - add lied notes
  * - add beamed notes
  */
 
 const chunkedItems = computed(() => {
   const result = [[]];
+
+  // Add startValue to first note `computedValue`
+  if (props.startValue) {
+    props.items[0].computedValue += props.startValue;
+  }
+
   const barMax = props.timeSignature[0] / props.timeSignature[1];
 
   // Create chunks of items where sum of computedValue === barMax
