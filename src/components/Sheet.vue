@@ -25,13 +25,14 @@ const props = defineProps({
     type: Number,
     required: false,
   },
+  showNotesName: Boolean,
 });
 
 /**
  * TODO:
  * - fix dot for all notes
  * - directly use computed as "value"
- * - add clef de sol
+ * - add clef de sol (wrapper around bar-wrapper with same grid)
  * - add lied notes
  * - add beamed notes
  */
@@ -64,9 +65,13 @@ const chunkedItems = computed(() => {
 </script>
 
 <template>
-  <h2>
-    {{ name }} — {{ author }} ({{ timeSignature[0] }} / {{ timeSignature[1] }})
-  </h2>
+  <h2>{{ name }} — {{ author }}</h2>
+
+  <p class="details">
+    Signature de temps :
+    <strong>{{ timeSignature[0] }} / {{ timeSignature[1] }}</strong>
+  </p>
+
   <div class="bar-wrapper">
     <div
       v-for="(chunk, i) in chunkedItems"
@@ -81,12 +86,22 @@ const chunkedItems = computed(() => {
         :name="item.name"
         :value="item.value"
         :dotted="item.dotted"
+        :show-notes-name="showNotesName"
       />
     </div>
   </div>
 </template>
 
 <style scoped>
+h2 {
+  margin: 0.5rem 0;
+}
+
+.details {
+  color: rgb(0 0 0 / 0.9);
+  margin: 0 0 2rem;
+}
+
 .bar-wrapper {
   --min-bar-width: 4rem;
   --sheet-columns: 16;

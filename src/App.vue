@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from "vue";
+import { ref, computed } from "vue";
 
 import Sheet from "./components/Sheet.vue";
 import Accordion from "./components/Accordion.vue";
@@ -19,12 +19,21 @@ const computedSheets = computed(() => {
     }),
   }));
 });
+
+const showNotesName = ref(true);
 </script>
 
 <template>
-  <main>
+  <header>
     <h1>Flûte alors 🪈</h1>
 
+    <div class="show-notes-names">
+      <label for="showNotesName">Afficher le nom des notes</label>
+      <input type="checkbox" id="showNotesName" v-model="showNotesName" />
+    </div>
+  </header>
+
+  <main>
     <hr />
 
     <ul class="sheet-list">
@@ -35,6 +44,7 @@ const computedSheets = computed(() => {
           :items="sheet.items"
           :time-signature="sheet.timeSignature"
           :start-value="sheet.startValue"
+          :show-notes-name="showNotesName"
         />
       </li>
     </ul>
@@ -71,13 +81,37 @@ const computedSheets = computed(() => {
 </template>
 
 <style scoped>
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 h1 {
   text-align: center;
-  margin: 1rem 0 4rem;
+  margin: 0;
+  text-decoration: underline;
+  text-decoration-color: var(--theme-color);
+  text-decoration-thickness: 0.25rem;
+}
+
+.show-notes-names {
+  align-items: center;
+  gap: 0.5rem;
+  display: flex;
+}
+
+label {
+  font-size: 1.2rem;
+}
+
+[type="checkbox"] {
+  height: 1.5rem;
+  width: 1.5rem;
+  accent-color: var(--theme-color);
 }
 
 hr {
-  border-color: var(--theme);
   border: none;
   margin: 4rem auto;
   text-align: center;
@@ -92,7 +126,7 @@ hr::after {
   display: flex;
   flex-direction: column;
   gap: 10rem;
-  padding: 0 2rem 0 0;
+  padding: 0;
   margin: 0;
   list-style: none;
 }

@@ -15,6 +15,7 @@ const props = defineProps({
     required: true,
   },
   dotted: Boolean,
+  showNotesName: Boolean,
 });
 
 const isStemDown = computed(() => {
@@ -54,9 +55,11 @@ const iconSrc = computed(() => {
         />
       </div>
     </span>
-    <span v-if="name" class="name">
-      <strong>{{ name }}</strong>
-    </span>
+    <Transition>
+      <span v-if="name && showNotesName" class="name">
+        <strong>{{ name }}</strong>
+      </span>
+    </Transition>
   </div>
 </template>
 
@@ -180,5 +183,16 @@ const iconSrc = computed(() => {
 /* SVG for eighth-down is wider than the other ones... */
 .do-line.shifted {
   left: 35%;
+}
+
+/* Transition for notes name */
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }
 </style>
