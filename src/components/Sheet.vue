@@ -30,6 +30,7 @@ const props = defineProps({
 
 /**
  * TODO:
+ * - design all notes !important
  * - fix dot for all notes
  * - directly use computed as "value"
  * - add clef de sol (wrapper around bar-wrapper with same grid)

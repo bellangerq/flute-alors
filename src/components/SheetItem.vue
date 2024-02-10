@@ -185,6 +185,11 @@ const iconSrc = computed(() => {
   left: 35%;
 }
 
+.whole.item-note .icon-image {
+  transform: translateY(1.5rem);
+  width: 1rem;
+}
+
 /* Transition for notes name */
 .v-enter-active,
 .v-leave-active {
