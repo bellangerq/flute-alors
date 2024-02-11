@@ -59,11 +59,9 @@ const iconSrc = computed(() => {
         />
       </div>
     </span>
-    <Transition>
-      <span v-if="name && showNotesName" class="name">
-        <strong>{{ name }}</strong>
-      </span>
-    </Transition>
+    <span v-if="name" :class="['name', { hide: !showNotesName }]">
+      <strong>{{ name }}</strong>
+    </span>
   </div>
 </template>
 
@@ -92,6 +90,11 @@ const iconSrc = computed(() => {
 
 .name {
   text-transform: capitalize;
+  transition: opacity 0.2s ease;
+}
+
+.name.hide {
+  opacity: 0;
 }
 
 /* Vertical alignment for notes (except whole) */
@@ -211,16 +214,5 @@ const iconSrc = computed(() => {
 /* SVG for eighth-down is wider than the other ones... */
 .do-line.shifted {
   left: 30%;
-}
-
-/* Transition for notes name */
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.2s ease;
-}
-
-.v-enter-from,
-.v-leave-to {
-  opacity: 0;
 }
 </style>
