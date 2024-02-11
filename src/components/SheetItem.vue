@@ -27,6 +27,10 @@ const iconSrc = computed(() => {
     return `/rests-icons/${props.value}.svg`;
   }
 
+  if (props.value === "whole") {
+    return `/notes-icons/whole.svg`;
+  }
+
   if (isStemDown.value) {
     return `/notes-icons/${props.value}-down.svg`;
   } else {
@@ -86,58 +90,75 @@ const iconSrc = computed(() => {
   position: relative;
 }
 
-.item-note .icon-image img {
-  height: 3rem;
-}
-
 .name {
   text-transform: capitalize;
 }
 
-/* Vertical alignment for notes */
-.note-mi\' .icon-image {
+/* Vertical alignment for notes (except whole) */
+.note-mi\':not(.whole) .icon-image {
   transform: translateY(-0.95rem);
 }
-.note-re\' .icon-image {
+.note-re\':not(.whole) .icon-image {
   transform: translateY(-0.45rem);
 }
-.note-do\' .icon-image {
+.note-do\':not(.whole) .icon-image {
   transform: translateY(0.1rem);
 }
-.note-si .icon-image {
+.note-si:not(.whole) .icon-image {
   transform: translateY(0.55rem);
 }
-.note-la .icon-image {
+.note-la:not(.whole) .icon-image {
   transform: translateY(-1rem);
 }
-.note-sol .icon-image {
+.note-sol:not(.whole) .icon-image {
   transform: translateY(-0.5rem);
 }
-.note-mi .icon-image {
+.note-mi:not(.whole) .icon-image {
   transform: translateY(0.5rem);
 }
-.note-re .icon-image {
+.note-re:not(.whole) .icon-image {
   transform: translateY(1rem);
 }
-.note-do .icon-image {
+.note-do:not(.whole) .icon-image {
   transform: translateY(1.5rem);
 }
 
+/* Vertical alignment for whole notes */
+.note-mi\'.whole .icon-image {
+  transform: translateY(-3.1rem);
+}
+.note-re\'.whole .icon-image {
+  transform: translateY(-2.6rem);
+}
+.note-do\'.whole .icon-image {
+  transform: translateY(-2.1rem);
+}
+.note-si.whole .icon-image {
+  transform: translateY(-1.6rem);
+}
+.note-la.whole .icon-image {
+  transform: translateY(-1.1rem);
+}
+.note-sol.whole .icon-image {
+  transform: translateY(-0.6rem);
+}
+.note-mi.whole .icon-image {
+  transform: translateY(0.4rem);
+}
+.note-re.whole .icon-image {
+  transform: translateY(0.9rem);
+}
+.note-do.whole .icon-image {
+  transform: translateY(1.3rem);
+}
+
 /* Rest alignment */
-.item-rest .icon-image {
-  width: 1rem;
-}
-
-.item-rest .icon-image img {
-  width: 100%;
-}
-
 .item-rest.whole .icon-image {
   transform: translateY(-1.3rem);
 }
 
 .item-rest.half .icon-image {
-  transform: translateY(-0.7rem);
+  transform: translateY(-0.6rem);
 }
 
 .item-rest.quarter .icon-image {
@@ -153,8 +174,8 @@ const iconSrc = computed(() => {
   content: "";
   border-radius: 50%;
   background: black;
-  bottom: 0.5rem;
-  right: -0.5rem;
+  bottom: 1.1rem;
+  right: -0.3rem;
   width: 0.25rem;
   height: 0.25rem;
   position: absolute;
@@ -164,30 +185,32 @@ const iconSrc = computed(() => {
 .item-dotted.note-re\' .icon-image::after,
 .item-dotted.note-do\' .icon-image::after,
 .item-dotted.note-si .icon-image::after {
-  top: 0.5rem;
-  bottom: auto;
+  top: 1.1rem;
+}
+
+.item-dotted.eighth .icon-image::after,
+.item-dotted.sixteenth .icon-image::after {
+  right: -0.2rem;
+}
+
+.item-dotted.whole .icon-image::after {
+  top: 3.7rem;
 }
 
 /* Sheet line for do */
-
 .do-line {
   position: absolute;
   height: 1px;
   width: 1.6rem;
   left: 50%;
-  bottom: 0.4rem;
+  bottom: 1.3rem;
   transform: translate(-50%);
   background: black;
 }
 
 /* SVG for eighth-down is wider than the other ones... */
 .do-line.shifted {
-  left: 35%;
-}
-
-.whole.item-note .icon-image {
-  transform: translateY(1.5rem);
-  width: 1rem;
+  left: 30%;
 }
 
 /* Transition for notes name */

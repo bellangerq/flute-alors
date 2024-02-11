@@ -30,8 +30,6 @@ const props = defineProps({
 
 /**
  * TODO:
- * - design all notes !important
- * - fix dot for all notes
  * - directly use computed as "value"
  * - add clef de sol (wrapper around bar-wrapper with same grid)
  * - add lied notes
@@ -107,11 +105,8 @@ h2 {
   --min-bar-width: 4rem;
   --sheet-columns: 16;
 
-  display: grid;
-  gap: 4rem 0;
-  grid-template-columns: repeat(16, 1fr);
-
   display: flex;
+  gap: 4rem 0;
   flex-wrap: wrap;
 }
 
