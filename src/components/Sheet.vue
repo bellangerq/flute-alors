@@ -30,7 +30,6 @@ const props = defineProps({
 
 /**
  * TODO:
- * - directly use computed as "value"
  * - add clef de sol (wrapper around bar-wrapper with same grid)
  * - add lied notes
  * - add beamed notes
@@ -39,20 +38,20 @@ const props = defineProps({
 const chunkedItems = computed(() => {
   const result = [[]];
 
-  // Add startValue to first note `computedValue`
+  // Add startValue to first note `value`
   if (props.startValue) {
-    props.items[0].computedValue += props.startValue;
+    props.items[0].value += props.startValue;
   }
 
   const barMax = props.timeSignature[0] / props.timeSignature[1];
 
-  // Create chunks of items where sum of computedValue === barMax
+  // Create chunks of items where sum of value === barMax
   props.items.forEach((item) => {
     const sum = result[result.length - 1]
-      .map((r) => r.computedValue)
+      .map((r) => r.value)
       .reduce((a, b) => a + b, 0);
 
-    if (sum + item.computedValue <= barMax) {
+    if (sum + item.value <= barMax) {
       result[result.length - 1].push(item);
     } else {
       result.push([item]);
@@ -83,7 +82,11 @@ const chunkedItems = computed(() => {
         :key="j"
         :type="item.type"
         :name="item.name"
-        :value="item.value"
+        :value="
+          i === 0 && j === 0 && startValue
+            ? item.value - startValue
+            : item.value
+        "
         :dotted="item.dotted"
         :show-notes-name="showNotesName"
       />

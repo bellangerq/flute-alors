@@ -11,11 +11,26 @@ const props = defineProps({
     required: false,
   },
   value: {
-    type: String,
+    type: Number,
     required: true,
   },
   dotted: Boolean,
   showNotesName: Boolean,
+});
+
+// Based on https://en.wikipedia.org/wiki/Note_value
+const VALUES_NAMES = {
+  whole: 1,
+  half: 1 / 2,
+  quarter: 1 / 4,
+  eighth: 1 / 8,
+  sixteenth: 1 / 16,
+};
+
+const valueName = computed(() => {
+  return Object.keys(VALUES_NAMES).find(
+    (key) => VALUES_NAMES[key] === props.value
+  );
 });
 
 const isStemDown = computed(() => {
@@ -24,17 +39,17 @@ const isStemDown = computed(() => {
 
 const iconSrc = computed(() => {
   if (props.type === "rest") {
-    return `/rests-icons/${props.value}.svg`;
+    return `/rests-icons/${valueName.value}.svg`;
   }
 
-  if (props.value === "whole") {
+  if (valueName.value === "whole") {
     return `/notes-icons/whole.svg`;
   }
 
   if (isStemDown.value) {
-    return `/notes-icons/${props.value}-down.svg`;
+    return `/notes-icons/${valueName.value}-down.svg`;
   } else {
-    return `/notes-icons/${props.value}.svg`;
+    return `/notes-icons/${valueName.value}.svg`;
   }
 });
 </script>
@@ -42,7 +57,7 @@ const iconSrc = computed(() => {
 <template>
   <div
     :class="[
-      `item item-${type} ${value}`,
+      `item item-${type} ${valueName}`,
       { [`note-${name}`]: name },
       { 'item-dotted': dotted },
     ]"
@@ -54,7 +69,7 @@ const iconSrc = computed(() => {
           v-if="name === 'do'"
           :class="[
             'do-line',
-            { shifted: value === 'eighth' || value === 'sixteenth' },
+            { shifted: valueName === 'eighth' || valueName === 'sixteenth' },
           ]"
         />
       </div>

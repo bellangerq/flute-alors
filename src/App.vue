@@ -4,21 +4,6 @@ import { ref, computed } from "vue";
 import Sheet from "./components/Sheet.vue";
 import Accordion from "./components/Accordion.vue";
 import sheets from "../sheets";
-import { VALUES } from "./settings";
-
-const computedSheets = computed(() => {
-  return sheets.map((s) => ({
-    ...s,
-    items: s.items.map((item) => {
-      return {
-        ...item,
-        computedValue: item.dotted
-          ? VALUES[item.value] + VALUES[item.value] / 2
-          : VALUES[item.value],
-      };
-    }),
-  }));
-});
 
 const showNotesName = ref(true);
 </script>
@@ -37,7 +22,7 @@ const showNotesName = ref(true);
     <hr />
 
     <ul class="sheet-list">
-      <li v-for="sheet in computedSheets" :key="sheet.name">
+      <li v-for="sheet in sheets" :key="sheet.name">
         <Sheet
           :name="sheet.name"
           :author="sheet.author"
