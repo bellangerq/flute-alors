@@ -1,5 +1,7 @@
 <script setup>
-import { computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import NoteIcon from "./NoteIcon.vue";
+import RestIcon from "./RestIcon.vue";
 
 const props = defineProps({
   type: {
@@ -15,6 +17,7 @@ const props = defineProps({
     required: true,
   },
   dotted: Boolean,
+  tied: "start" | "end",
   showNotesName: Boolean,
 });
 
@@ -37,34 +40,33 @@ const isStemDown = computed(() => {
   return ["mi'", "re'", "do'", "si"].includes(props.name);
 });
 
-const iconSrc = computed(() => {
-  if (props.type === "rest") {
-    return `/rests-icons/${valueName.value}.svg`;
-  }
+const itemRef = ref(null);
+const itemWidth = ref(0);
 
-  if (valueName.value === "whole") {
-    return `/notes-icons/whole.svg`;
-  }
-
-  if (isStemDown.value) {
-    return `/notes-icons/${valueName.value}-down.svg`;
-  } else {
-    return `/notes-icons/${valueName.value}.svg`;
+onMounted(() => {
+  if (itemRef.value) {
+    itemWidth.value = itemRef.value.offsetWidth;
   }
 });
 </script>
 
 <template>
   <div
+    ref="itemRef"
     :class="[
       `item item-${type} ${valueName}`,
       { [`note-${name}`]: name },
       { 'item-dotted': dotted },
+      { 'item-tied-start': tied === 'start' },
+      { 'item-tied-end': tied === 'end' },
+      { 'item-stem-down': isStemDown },
     ]"
+    :style="{ '--item-width': `${itemWidth}px` }"
   >
     <span class="icon-wrapper">
       <div class="icon-image">
-        <img :src="iconSrc" alt="" />
+        <RestIcon v-if="type === 'rest'" :name="valueName" />
+        <NoteIcon v-else :name="valueName" :is-stem-down="isStemDown" />
         <span
           v-if="name === 'do'"
           :class="[
@@ -213,6 +215,41 @@ const iconSrc = computed(() => {
 
 .item-dotted.whole .icon-image::after {
   top: 3.7rem;
+}
+
+/* Tied notes */
+/**
+ FIXME: improve display of tied notes:
+ - add .bar padding (0.5 * 2) if notes are not in the same bar.
+
+*/
+
+.item-tied-start .icon-image::before,
+.item-tied-end .icon-image::before {
+  content: "";
+  height: 1rem;
+  width: var(--item-width);
+  border-bottom: 3px solid black;
+  position: absolute;
+  bottom: 0.4rem;
+  border-radius: 0 0 50% 50%;
+}
+
+.item-tied-start .icon-image::before {
+  left: 50%;
+  clip-path: polygon(0% 0%, 50% 0%, 50% 100%, 0% 100%);
+}
+
+.item-tied-end .icon-image::before {
+  right: 50%;
+  clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+}
+
+.item-tied-start.item-stem-down .icon-image::before,
+.item-tied-end.item-stem-down .icon-image::before {
+  bottom: auto;
+  top: 0.4rem;
+  transform: rotate(180deg);
 }
 
 /* Sheet line for do */

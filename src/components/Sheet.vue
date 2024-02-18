@@ -88,6 +88,7 @@ const chunkedItems = computed(() => {
             : item.value
         "
         :dotted="item.dotted"
+        :tied="item.tied"
         :show-notes-name="showNotesName"
       />
     </div>
@@ -124,7 +125,6 @@ h2 {
   height: 5rem;
   display: grid;
   grid-template-columns: repeat(var(--bar-columns), 1fr);
-  grid-column: span var(--bar-columns);
   position: relative;
   padding: 0 0.5rem;
 }
