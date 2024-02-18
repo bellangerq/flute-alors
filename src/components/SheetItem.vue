@@ -249,7 +249,7 @@ onMounted(() => {
 .item-tied-end.item-stem-down .icon-image::before {
   bottom: auto;
   top: 0.4rem;
-  transform: rotate(180deg);
+  transform: scaleY(-1);
 }
 
 /* Sheet line for do */
@@ -263,7 +263,7 @@ onMounted(() => {
   background: black;
 }
 
-/* SVG for eighth-down is wider than the other ones... */
+/* Shift 'do' line for wider notes */
 .do-line.shifted {
   left: 30%;
 }
