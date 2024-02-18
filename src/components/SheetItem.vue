@@ -18,6 +18,7 @@ const props = defineProps({
   },
   dotted: Boolean,
   tied: "start" | "end",
+  tiedAcrossBars: Boolean,
   showNotesName: Boolean,
 });
 
@@ -59,6 +60,7 @@ onMounted(() => {
       { 'item-dotted': dotted },
       { 'item-tied-start': tied === 'start' },
       { 'item-tied-end': tied === 'end' },
+      { 'item-tied-across-bars': tiedAcrossBars },
       { 'item-stem-down': isStemDown },
     ]"
     :style="{ '--item-width': `${itemWidth}px` }"
@@ -218,12 +220,6 @@ onMounted(() => {
 }
 
 /* Tied notes */
-/**
- FIXME: improve display of tied notes:
- - add .bar padding (0.5 * 2) if notes are not in the same bar.
-
-*/
-
 .item-tied-start .icon-image::before,
 .item-tied-end .icon-image::before {
   content: "";
@@ -250,6 +246,10 @@ onMounted(() => {
   bottom: auto;
   top: 0.4rem;
   transform: scaleY(-1);
+}
+
+.item-tied-across-bars .icon-image::before {
+  width: calc(var(--item-width) + calc(var(--bar-inline-padding) * 2));
 }
 
 /* Sheet line for do */

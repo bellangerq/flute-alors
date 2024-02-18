@@ -89,6 +89,10 @@ const chunkedItems = computed(() => {
         "
         :dotted="item.dotted"
         :tied="item.tied"
+        :tied-across-bars="
+          (item.tied === 'start' && j === chunk.length - 1) ||
+          (item.tied === 'end' && j === 0)
+        "
         :show-notes-name="showNotesName"
       />
     </div>
@@ -115,6 +119,8 @@ h2 {
 }
 
 .bar {
+  --bar-inline-padding: 0.5rem;
+
   background: repeating-linear-gradient(
     180deg,
     black,
@@ -126,7 +132,7 @@ h2 {
   display: grid;
   grid-template-columns: repeat(var(--bar-columns), 1fr);
   position: relative;
-  padding: 0 0.5rem;
+  padding: 0 var(--bar-inline-padding);
 }
 
 .bar:not(:last-child) {
