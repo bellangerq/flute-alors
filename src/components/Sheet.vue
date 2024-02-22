@@ -28,35 +28,44 @@ const props = defineProps({
   showNotesName: Boolean,
 });
 
-/**
- * TODO:
- * - add clef de sol (wrapper around bar-wrapper with same grid)
- * - add lied notes
- * - add beamed notes
- */
+// Based on https://en.wikipedia.org/wiki/Note_value
+const VALUES = {
+  whole: 1,
+  half: 1 / 2,
+  quarter: 1 / 4,
+  eighth: 1 / 8,
+  sixteenth: 1 / 16,
+};
 
+// Create chunks of items where sum of totalValue === barMax
 const chunkedItems = computed(() => {
   const result = [[]];
 
-  // Add startValue to first note `value`
-  if (props.startValue) {
-    props.items[0].value += props.startValue;
-  }
-
+  // Compute max notes/rests values for a bar
   const barMax = props.timeSignature[0] / props.timeSignature[1];
 
-  // Create chunks of items where sum of value === barMax
-  props.items.forEach((item) => {
-    const sum = result[result.length - 1]
-      .map((r) => r.value)
-      .reduce((a, b) => a + b, 0);
+  props.items
+    // Compute note value based on dot and/or startValue for first bar.
+    .map((item, index) => {
+      return {
+        ...item,
+        totalValue:
+          VALUES[item.value] +
+          (item.dotted ? VALUES[item.value] / 2 : 0) +
+          (index === 0 && props.startValue ? props.startValue : 0),
+      };
+    })
+    .forEach((item) => {
+      const sum = result[result.length - 1]
+        .map((r) => r.totalValue)
+        .reduce((a, b) => a + b, 0);
 
-    if (sum + item.value <= barMax) {
-      result[result.length - 1].push(item);
-    } else {
-      result.push([item]);
-    }
-  });
+      if (sum + item.totalValue <= barMax) {
+        result[result.length - 1].push(item);
+      } else {
+        result.push([item]);
+      }
+    });
 
   return result;
 });
@@ -82,11 +91,7 @@ const chunkedItems = computed(() => {
         :key="j"
         :type="item.type"
         :name="item.name"
-        :value="
-          i === 0 && j === 0 && startValue
-            ? item.value - startValue
-            : item.value
-        "
+        :value="item.value"
         :dotted="item.dotted"
         :tied="item.tied"
         :tied-across-bars="

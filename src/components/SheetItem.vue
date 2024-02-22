@@ -13,28 +13,13 @@ const props = defineProps({
     required: false,
   },
   value: {
-    type: Number,
+    type: String,
     required: true,
   },
   dotted: Boolean,
   tied: "start" | "end",
   tiedAcrossBars: Boolean,
   showNotesName: Boolean,
-});
-
-// Based on https://en.wikipedia.org/wiki/Note_value
-const VALUES_NAMES = {
-  whole: 1,
-  half: 1 / 2,
-  quarter: 1 / 4,
-  eighth: 1 / 8,
-  sixteenth: 1 / 16,
-};
-
-const valueName = computed(() => {
-  return Object.keys(VALUES_NAMES).find(
-    (key) => VALUES_NAMES[key] === props.value
-  );
 });
 
 const isStemDown = computed(() => {
@@ -55,7 +40,7 @@ onMounted(() => {
   <div
     ref="itemRef"
     :class="[
-      `item item-${type} ${valueName}`,
+      `item item-${type} ${value}`,
       { [`note-${name}`]: name },
       { 'item-dotted': dotted },
       { 'item-tied-start': tied === 'start' },
@@ -67,13 +52,13 @@ onMounted(() => {
   >
     <span class="icon-wrapper">
       <div class="icon-image">
-        <RestIcon v-if="type === 'rest'" :name="valueName" />
-        <NoteIcon v-else :name="valueName" :is-stem-down="isStemDown" />
+        <RestIcon v-if="type === 'rest'" :name="value" />
+        <NoteIcon v-else :name="value" :is-stem-down="isStemDown" />
         <span
           v-if="name === 'do'"
           :class="[
             'do-line',
-            { shifted: valueName === 'eighth' || valueName === 'sixteenth' },
+            { shifted: value === 'eighth' || value === 'sixteenth' },
           ]"
         />
       </div>
