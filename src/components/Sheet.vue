@@ -121,6 +121,7 @@ h2 {
   display: flex;
   gap: 4rem 0;
   flex-wrap: wrap;
+  padding-bottom: 4rem;
 }
 
 .bar {
