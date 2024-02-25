@@ -72,7 +72,10 @@ const chunkedItems = computed(() => {
 </script>
 
 <template>
-  <h2>{{ name }} — {{ author }}</h2>
+  <div class="heading">
+    <h2 :id="`${name.split(' ').join('-')}`">{{ name }} — {{ author }}</h2>
+    <small><a href="#summary">Sommaire ↑</a></small>
+  </div>
 
   <p class="details">
     Signature de temps :
@@ -105,8 +108,22 @@ const chunkedItems = computed(() => {
 </template>
 
 <style scoped>
-h2 {
+.heading {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
   margin: 0.5rem 0;
+  gap: 1rem;
+}
+
+.heading a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--theme-color);
+  text-decoration-thickness: 0.1rem;
+}
+
+h2 {
+  margin: 0;
 }
 
 .details {

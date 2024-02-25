@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 
+import Summary from "./components/Summary.vue";
 import Sheet from "./components/Sheet.vue";
 import Accordion from "./components/Accordion.vue";
 import sheets from "../sheets";
@@ -19,7 +20,7 @@ const showNotesName = ref(true);
   </header>
 
   <main>
-    <hr />
+    <Summary :links="sheets.map((s) => ({ name: s.name, author: s.author }))" />
 
     <ul class="sheet-list">
       <li v-for="sheet in sheets" :key="sheet.name">
@@ -70,6 +71,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 4rem;
 }
 
 h1 {
