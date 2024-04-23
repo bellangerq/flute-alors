@@ -697,7 +697,7 @@ export default [
       { type: "note", name: "mi", value: "quarter" },
       { type: "note", name: "do", value: "eighth" },
       { type: "note", name: "fa", value: "eighth", tied: "start" },
-      { type: "note", name: "fa", value: "eighth", tied: "end" },
+      { type: "note", name: "fa", value: "quarter", tied: "end" },
       { type: "note", name: "sol", value: "quarter" },
       { type: "note", name: "la", value: "eighth" },
       { type: "note", name: "sol", value: "eighth", tied: "start" },
