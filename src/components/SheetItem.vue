@@ -172,7 +172,8 @@ onMounted(() => {
   transform: translateY(-0.5rem);
 }
 
-.item-rest.eighth .icon-image {
+.item-rest.eighth .icon-image,
+.item-rest.sixteenth .icon-image {
   transform: translateY(-0.3rem);
 }
 
