@@ -38,29 +38,15 @@ const showNotesName = ref(true);
     <hr />
 
     <footer>
-      <Accordion title="À propos">
-        <p>
-          J’ai créé ce site dans pour m’aider dans l’apprentissage de la flûte
-          pour regrouper les partitions des musiques et en affichant le nom des
-          notes en dessous.
-        </p>
-        <p>
-          Gros disclaimer : je pars de 0 en musique. Il se peut donc qu’il y ait
-          des inexactitudes sur les partitions.
-        </p>
-      </Accordion>
-
-      <Accordion title="Placement des doigts">
-        <img
-          src="https://musiquedemers.weebly.com/uploads/8/8/3/7/88379994/published/doigt-s-flute-a-bec.png"
-          alt="placement des doigts pour la flûte à bec pour les différentes notes"
-        />
-        <p>
-          Source :
-          <a href="https://musiquedemers.weebly.com/flucircte-agrave-bec.html"
-            >https://musiquedemers.weebly.com/flucircte-agrave-bec.html</a
-          >
-        </p>
+      <Accordion title="Liens d’aide">
+        <ul>
+          <li>
+            Tablatures et placement des doigts pour les différentes octaves
+            <a href="https://www.flute-a-bec.com/tablature.html">
+              https://www.flute-a-bec.com/tablature.html</a
+            >.
+          </li>
+        </ul>
       </Accordion>
     </footer>
   </main>

@@ -23,4 +23,14 @@ details[open] > summary {
 summary {
   font-size: 1.2rem;
 }
+
+details :deep(a) {
+  text-decoration: underline;
+  text-decoration-color: var(--theme-color);
+  text-decoration-thickness: 0.1rem;
+}
+
+details :deep(a:hover) {
+  text-decoration: none;
+}
 </style>
