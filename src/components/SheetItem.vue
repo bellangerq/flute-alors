@@ -17,6 +17,8 @@ const props = defineProps({
     required: true,
   },
   dotted: Boolean,
+  flat: Boolean,
+  sharp: Boolean,
   tied: "start" | "end",
   tiedAcrossBars: Boolean,
   showNotesName: Boolean,
@@ -64,7 +66,13 @@ onMounted(() => {
       </div>
     </span>
     <span v-if="name" :class="['name', { hide: !showNotesName }]">
-      <strong>{{ name }}</strong>
+      <strong>
+        {{ name
+        }}<span>
+          <template v-if="sharp">#</template>
+          <template v-if="flat">b</template>
+        </span>
+      </strong>
     </span>
   </div>
 </template>
@@ -95,6 +103,11 @@ onMounted(() => {
 .name {
   text-transform: capitalize;
   transition: opacity 0.2s ease;
+}
+
+.name span {
+  text-transform: initial;
+  font-style: italic;
 }
 
 .name.hide {
@@ -203,6 +216,11 @@ onMounted(() => {
 
 .item-dotted.whole .icon-image::after {
   top: 3.7rem;
+}
+
+/* Flat notes */
+.flat {
+  height: 1rem;
 }
 
 /* Tied notes */

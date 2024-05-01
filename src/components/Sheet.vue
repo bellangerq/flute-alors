@@ -97,6 +97,8 @@ const chunkedItems = computed(() => {
         :value="item.value"
         :dotted="item.dotted"
         :tied="item.tied"
+        :flat="item.flat"
+        :sharp="item.sharp"
         :tied-across-bars="
           (item.tied === 'start' && j === chunk.length - 1) ||
           (item.tied === 'end' && j === 0)
