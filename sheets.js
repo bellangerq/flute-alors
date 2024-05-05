@@ -778,7 +778,7 @@ export default [
         type: "note",
         name: "re",
         value: "half",
-        dotted: "true",
+        dotted: true,
         tied: "start",
       },
       { type: "note", name: "re", value: "half", tied: "end" },
