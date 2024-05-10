@@ -26,7 +26,7 @@ const props = defineProps({
 });
 
 const isStemDown = computed(() => {
-  return ["mi'", "re'", "do'", "si"].includes(props.name);
+  return ["fa'", "mi'", "re'", "do'", "si"].includes(props.name);
 });
 
 const itemRef = ref(null);
@@ -117,6 +117,9 @@ onMounted(() => {
 }
 
 /* Vertical alignment for notes (except whole) */
+.note-fa\':not(.whole) .icon-image {
+  transform: translateY(-1.4rem);
+}
 .note-mi\':not(.whole) .icon-image {
   transform: translateY(-0.95rem);
 }
@@ -146,6 +149,9 @@ onMounted(() => {
 }
 
 /* Vertical alignment for whole notes */
+.note-fa\'.whole .icon-image {
+  transform: translateY(-3.6rem);
+}
 .note-mi\'.whole .icon-image {
   transform: translateY(-3.1rem);
 }
@@ -204,6 +210,7 @@ onMounted(() => {
   position: absolute;
 }
 
+.item-dotted.note-fa\' .icon-image::after,
 .item-dotted.note-mi\' .icon-image::after,
 .item-dotted.note-re\' .icon-image::after,
 .item-dotted.note-do\' .icon-image::after,
