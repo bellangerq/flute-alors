@@ -19,6 +19,7 @@ const props = defineProps({
   dotted: Boolean,
   flat: Boolean,
   sharp: Boolean,
+  triplet: Boolean,
   tied: "start" | "end",
   tiedAcrossBars: Boolean,
   showNotesName: Boolean,
@@ -65,6 +66,7 @@ onMounted(() => {
         />
       </div>
     </span>
+    <span v-if="triplet" class="triplet-line" />
     <span v-if="name" :class="['name', { hide: !showNotesName }]">
       <strong>
         {{ name
@@ -216,6 +218,24 @@ onMounted(() => {
 
 .item-dotted.whole .icon-image::after {
   top: 3.7rem;
+}
+
+/* Triplets */
+.triplet-line {
+  position: absolute;
+  height: 0.5rem;
+  border: 1px solid;
+  border-bottom: none;
+  width: calc(var(--item-width) * 3);
+  text-align: center;
+  bottom: calc(100% + 0.5rem);
+
+  &::before {
+    content: "3";
+    font-weight: bold;
+    position: absolute;
+    bottom: 100%;
+  }
 }
 
 /* Flat notes */

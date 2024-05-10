@@ -45,14 +45,18 @@ const chunkedItems = computed(() => {
   const barMax = props.timeSignature[0] / props.timeSignature[1];
 
   props.items
-    // Compute note value based on dot and/or startValue for first bar.
+    // Compute note value based on:
+    // - startValue for first bar.
+    // - dotted
+    // - triplet
     .map((item, index) => {
       return {
         ...item,
-        totalValue:
-          VALUES[item.value] +
-          (item.dotted ? VALUES[item.value] / 2 : 0) +
-          (index === 0 && props.startValue ? props.startValue : 0),
+        totalValue: item.triplet
+          ? (VALUES[item.value] * 2) / 3
+          : VALUES[item.value] +
+            (item.dotted ? VALUES[item.value] / 2 : 0) +
+            (index === 0 && props.startValue ? props.startValue : 0),
       };
     })
     .forEach((item) => {
@@ -99,6 +103,7 @@ const chunkedItems = computed(() => {
         :tied="item.tied"
         :flat="item.flat"
         :sharp="item.sharp"
+        :triplet="chunk[j - 1]?.triplet && chunk[j + 1]?.triplet"
         :tied-across-bars="
           (item.tied === 'start' && j === chunk.length - 1) ||
           (item.tied === 'end' && j === 0)
@@ -138,7 +143,7 @@ h2 {
   --sheet-columns: 16;
 
   display: flex;
-  gap: 4rem 0;
+  gap: 6rem 0;
   flex-wrap: wrap;
   padding-bottom: 4rem;
 }
