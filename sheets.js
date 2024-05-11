@@ -278,6 +278,7 @@ export default [
       { type: "note", name: "sol", value: "half", dotted: true },
     ],
   },
+  // Source: https://www.youtube.com/watch?v=GrUunXxXQ8I&t=72s
   {
     name: "Concerning hobbits",
     author: "Howard Shore",
@@ -361,6 +362,7 @@ export default [
       { type: "note", name: "si", value: "sixteenth" },
       { type: "note", name: "la", value: "eighth" },
       { type: "note", name: "mi'", value: "quarter", dotted: true },
+      { type: "rest", value: "quarter" },
       { type: "rest", value: "sixteenth" },
       { type: "note", name: "mi", value: "sixteenth" },
       { type: "note", name: "la", value: "sixteenth" },
@@ -917,6 +919,7 @@ export default [
       { type: "note", name: "sol", value: "half" },
     ],
   },
+  // Source: https://www.youtube.com/watch?v=HmRdZg8cE4A
   {
     name: "A Whole New World",
     author: "Alan Menken",
